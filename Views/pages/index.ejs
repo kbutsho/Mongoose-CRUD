@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Contacts</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.0.2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+            <div>
+                <h2 class="text-primary text-center text-uppercase">Add Contact</h2>
+                <form action="/" method="post" class="my-5" id="form-id">
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" name="name" class="form-control  <%= error.name ? 'is-invalid' : '' %> "
+                                placeholder="Name">
+                            <div class="invalid-feedback">
+                                <%= error.name %>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input type="email" name="email"
+                                class="form-control <%= error.email ? 'is-invalid' : '' %> " placeholder="Email">
+                            <div class="invalid-feedback">
+                                <%= error.email %>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input type="text" name="phone"
+                                class="form-control  <%= error.phone ? 'is-invalid' : '' %> " placeholder="Phone">
+                            <div class="invalid-feedback">
+                                <%= error.phone %>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="id">
+
+                        <div class="col">
+                            <div class="d-flex">
+                                <input type="submit" value="Submit" class="form-control me-3 btn btn-sm btn-primary"
+                                    style="padding: 7px 0;">
+                                <button class="btn btn-sm btn-danger px-3" style="visibility: hidden;"
+                                    id="reset-btn">Reset</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+                <h2 class="text-danger text-center text-uppercase">Contact List</h2>
+                <table class="table table-striped my-5">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var i=0; i<contacts.length; i++) {%>
+                            <tr>
+
+
+                                <td>
+                                    <%= contacts[i].name %>
+                                </td>
+                                <td>
+                                    <%= contacts[i].phone %>
+                                </td>
+                                <td>
+                                    <%= contacts[i].email %>
+                                </td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm edit-button px-3"
+                                        data-name="<%= contacts[i].name %>" data-phone="<%= contacts[i].phone %>"
+                                        data-email="<%= contacts[i].email %>"
+                                        data-id="<%= contacts[i]._id %>">Edit</button>
+                                    <a class="btn btn-danger btn-sm" href="/delete/<%= contacts[i]._id %> ">Delete</a>
+                                </td>
+                            </tr>
+                            <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            window.onload = () => {
+                let editBtn = document.getElementsByClassName('edit-button');
+                let form = document.getElementById('form-id');
+                [...editBtn].forEach(btn => {
+                    btn.addEventListener('click', (event) => {
+                        let { name, email, phone, id } = event.target.dataset;
+                        form[0].value = name
+                        form[1].value = email
+                        form[2].value = phone
+                        form[3].value = id
+                        form[4].value = "Update"
+                        document.getElementById("reset-btn").style.visibility = "visible";
+                        // window.location.reload(true);
+                    })
+                    document.getElementById('reset-btn').addEventListener('click', (e) => {
+                        form[0].reset();
+                        form[1].reset();
+                        form[2].reset();
+                        form[3].reset();
+                        form[4].reset();
+                        document.getElementById("reset-btn").style.visibility = "hidden";
+                    })
+                })
+            }           
+        </script>
+
+        <!-- Bootstrap JavaScript Libraries -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+            integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+            integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+            crossorigin="anonymous"></script>
+
+
+
+</body>
+
+</html>
